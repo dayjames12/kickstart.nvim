@@ -190,6 +190,40 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- Keybinds for matching the primeagens harpoon plugin
+-- See `:help harpoon` for more information
+-- These keybinds are used to quickly jump between files
+-- and are useful for navigating large codebases
+-- vim.keymap.set('n', '<leader>ha', '<cmd>lua require("harpoon.mark").add_file()<CR>', { desc = 'Add file to [H]arpoon' })
+-- vim.keymap.set('n', '<leader>hr', '<cmd>lua require("harpoon.mark").remove_file()<CR>', { desc = 'Remove file from [H]arpoon' })
+-- vim.keymap.set('n', '<leader>hm', '<cmd>lua require("harpoon.ui").toggle_quick_menu()<CR>', { desc = 'Toggle [H]arpoon menu' })
+-- want to use ctrl h and ctrl t to rotate through files
+-- vim.keymap.set('n', '<C-h>', '<cmd>lua require("harpoon.ui").nav_file(1)<CR>', { desc = 'Navigate to next file in [H]arpoon' })
+-- vim.keymap.set('n', '<C-t>', '<cmd>lua require("harpoon.ui").nav_file(2)<CR>', { desc = 'Navigate to previous file in [H]arpoon' })
+--
+-- trying ut the primeageens harpoon keybinds
+-- Tabs
+--- creation / closing
+vim.keymap.set('n', '<C-w>', ':tabclose<CR>')
+vim.keymap.set('n', '<leader>fn', ':tabnew<CR>:lua require("telescope.builtin").find_files()<CR>')
+
+--- Switch to next or prev tab
+vim.keymap.set('n', '<Tab>', ':tabnext<CR>')
+vim.keymap.set('n', '<S-Tab>', ':tabprev<CR>')
+
+--- Move tabs
+vim.keymap.set('n', '<C-,>', ':-tabm<CR>')
+vim.keymap.set('n', '<C-.>', ':+tabm<CR>')
+
+--- Switch tabs by number
+vim.keymap.set('n', '<C-j>', ':tabnext 1<CR>')
+vim.keymap.set('n', '<C-k>', ':tabnext 2<CR>')
+vim.keymap.set('n', '<C-l>', ':tabnext 3<CR>')
+vim.keymap.set('n', '<C-;>', ':tabnext 4<CR>')
+
+--- From the Primeagen
+vim.keymap.set('n', '<leader>p', "'_dP")
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -227,6 +261,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  'github/copilot.vim',
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -302,6 +337,9 @@ require('lazy').setup({
   -- you do for a plugin at the top level, you can do for a dependency.
   --
   -- Use the `dependencies` key to specify the dependencies of a particular plugin
+
+  -- Adding harpoon
+  { 'ThePrimeagen/harpoon', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' } },
 
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
@@ -575,7 +613,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
+        tsserver = {},
         --
 
         lua_ls = {
@@ -873,12 +911,12 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
